@@ -1,6 +1,6 @@
   " Notes {{{
-     " Based on https://github.com/robertmeta/vimfiles
-     " I copied one of his earlier vimrc when I first started to use vim, modified a lot of stuff in the following years
+     " Originally I copied Robert Melton's vimfiles (https://github.com/robertmeta/vimfiles)
+     " It changed a lot since then
   " }}}
 
   " Plugin Settings {{{
@@ -340,6 +340,7 @@
             " Override types
             au BufNewFile,BufRead *.md,*.markdown setlocal filetype=markdown " Markdown (common markdown?)
             au BufNewFile,BufRead *.z* setlocal filetype=zsh
+            au BufNewFile,BufRead *.scala setlocal filetype=scala
 
             " Things to spellcheck
             au FileType asciidoc setlocal spell
