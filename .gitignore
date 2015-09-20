@@ -1,0 +1,16 @@
+# Created by https://www.gitignore.io
+### my vim ###
+backup/*
+tmp/*
+plugged/*
+tags/*
+view/*
+
+### Vim ###
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
