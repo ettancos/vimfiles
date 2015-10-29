@@ -74,6 +74,9 @@
     let g:indentLine_enabled = 0
     let g:tcommentTextObjectInlineComment = ''
     let g:undotree_WindowLayout = 2
+    let g:solarized_contrast = "high"
+    "let g:solarized_termcolors = 16
+    let g:solarized_visibility = "high"
     nnoremap U :UndotreeToggle<CR>
     let g:vim_markdown_folding_disabled = 1
 
@@ -213,7 +216,14 @@
 
   " Vim UI {{{
     set t_Co=256
-    set background=dark " we plan to use a dark background
+    " set background=light " we plan to use a dark background
+    let hour = strftime("%H")
+    if 8 <= hour && hour < 20
+        set background=light
+    else
+        set background=dark
+    endif
+    colorscheme solarized
 
     set cursorline " highlight current line
     set lazyredraw " do not redraw while running macros
