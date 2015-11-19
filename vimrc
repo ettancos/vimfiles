@@ -216,13 +216,7 @@
 
   " Vim UI {{{
     set t_Co=256
-    " set background=light " we plan to use a dark background
-    let hour = strftime("%H")
-    if 8 <= hour && hour < 20
-        set background=light
-    else
-        set background=dark
-    endif
+    set background=light
     colorscheme solarized
 
     set cursorline " highlight current line
