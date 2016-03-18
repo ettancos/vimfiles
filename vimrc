@@ -26,7 +26,8 @@
     Plug 'majutsushi/tagbar'
 
     Plug 'altercation/vim-colors-solarized'
-    Plug 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
 
     " editing
     Plug 'junegunn/rainbow_parentheses.vim'
@@ -63,6 +64,7 @@
     Plug 'derekwyatt/vim-scala',     { 'for': 'scala'      }
     Plug 'hail2u/vim-css3-syntax',   { 'for': 'css'        }
     Plug 'Glench/Vim-Jinja2-Syntax', { 'for': 'jinja'      }
+    Plug 'racer-rust/vim-racer',    { 'for': 'rust'      }
     Plug 'vim-perl/vim-perl',        { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 
     " don't forget to call() end, causes troubles -.-
@@ -79,7 +81,14 @@
     let g:solarized_visibility = "high"
     nnoremap U :UndotreeToggle<CR>
     let g:vim_markdown_folding_disabled = 1
-
+    let g:ycm_rust_src_path = '~/apps/rust/src'
+    let g:ycm_confirm_extra_conf = 0
+    "
+    " Airline
+    let g:airline_theme = "solarized"
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline#extensions#tabline#left_sep = ' '
+    let g:airline#extensions#tabline#left_alt_sep = '|'
 
   " }}}
 
