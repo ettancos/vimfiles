@@ -26,6 +26,7 @@
     Plug 'majutsushi/tagbar'
 
     Plug 'altercation/vim-colors-solarized'
+    Plug 'romainl/flattened'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
 
@@ -43,7 +44,13 @@
     Plug 'easymotion/vim-easymotion'
     Plug 'kien/ctrlp.vim'
     Plug 'mileszs/ack.vim'
-    Plug 'Valloric/YouCompleteMe'
+
+    if has('nvim')
+        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+        let g:deoplete#enable_at_startup = 1
+    else
+        Plug 'Valloric/YouCompleteMe'
+    endif
 
     Plug 'jiangmiao/auto-pairs' " auto close
     Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
@@ -56,15 +63,16 @@
     " lang
     Plug 'scrooloose/syntastic' " TODO: Needs integration with powerline
     Plug 'klen/python-mode'
-    Plug 'pangloss/vim-javascript',  { 'for': 'javascript' }
-    Plug 'kchmck/vim-coffee-script', { 'for': 'coffee'     }
-    Plug 'plasticboy/vim-markdown',  { 'for': 'markdown'   }
-    Plug 'wting/rust.vim',           { 'for': 'rust'       }
-    Plug 'elzr/vim-json',            { 'for': 'json'       }
-    Plug 'derekwyatt/vim-scala',     { 'for': 'scala'      }
-    Plug 'hail2u/vim-css3-syntax',   { 'for': 'css'        }
-    Plug 'Glench/Vim-Jinja2-Syntax', { 'for': 'jinja'      }
-    Plug 'racer-rust/vim-racer',    { 'for': 'rust'      }
+    Plug 'pangloss/vim-javascript'
+    Plug 'kchmck/vim-coffee-script'
+    Plug 'plasticboy/vim-markdown'
+    Plug 'wting/rust.vim'
+    Plug 'elzr/vim-json'
+    Plug 'derekwyatt/vim-scala'
+    Plug 'hail2u/vim-css3-syntax'
+    Plug 'tangledhelix/vim-kickstart'
+    Plug 'Glench/Vim-Jinja2-Syntax'
+    Plug 'racer-rust/vim-racer'
     Plug 'vim-perl/vim-perl',        { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 
     " don't forget to call() end, causes troubles -.-
@@ -85,11 +93,16 @@
     let g:ycm_confirm_extra_conf = 0
     "
     " Airline
-    let g:airline_theme = "solarized"
+    let g:airline_theme = "luna"
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#left_sep = ' '
     let g:airline#extensions#tabline#left_alt_sep = '|'
 
+    " pymode freeze
+    let g:pymode_options_max_line_length = 119
+    let g:pymode_rope_lookup_project = 0
+    let g:pymode_rope_complete_on_dot = 0
+    let g:pymode_rope = 0
   " }}}
 
   " Plugin vim-gitgutter {{{
@@ -219,14 +232,14 @@
     if has("mouse")
         set mouse=a " use mouse everywhere
         set nomousehide " don't hide the mouse
-        set ttymouse=xterm2 " makes it work in everything
+        "set ttymouse=xterm2 " makes it work in everything
     endif
   " }}}
 
   " Vim UI {{{
     set t_Co=256
     set background=light
-    colorscheme solarized
+    colorscheme flattened_light
 
     set cursorline " highlight current line
     set lazyredraw " do not redraw while running macros
