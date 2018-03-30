@@ -10,6 +10,7 @@
 
     " Load same default settings
     Plug 'tpope/vim-sensible'
+    Plug 'Shougo/denite.nvim'
 
     " Git
     Plug 'tpope/vim-fugitive'
@@ -18,14 +19,15 @@
 
     " tmux
     Plug 'tpope/vim-tbone'
-    Plug 'tpope/vim-dispatch'
+    Plug 'roxma/vim-tmux-clipboard'
+    Plug 'bfredl/nvim-ipy'
 
     " UI
     Plug 'mbbill/undotree',             { 'on': 'UndotreeToggle'   }
     Plug 'scrooloose/nerdtree'
     Plug 'majutsushi/tagbar'
 
-    Plug 'altercation/vim-colors-solarized'
+    Plug 'yggdroot/indentline'
     Plug 'romainl/flattened'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
@@ -34,45 +36,61 @@
     Plug 'junegunn/rainbow_parentheses.vim'
     Plug 'junegunn/vim-easy-align',       { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
     Plug 'junegunn/vim-pseudocl' " prerequisite - pseudo command line
-    Plug 'junegunn/vim-fnr' " advanced find and replace
     Plug 'junegunn/vim-oblique' " /-search improvements
+    Plug 'junegunn/fzf'
+    Plug 'fszymanski/fzf-gitignore', {'do': ':UpdateRemotePlugins'}
+    Plug 'brooth/far.vim'
+    Plug 'w0rp/ale'
 
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-commentary',        { 'on': '<Plug>Commentary' }
 
+    Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
     Plug 'easymotion/vim-easymotion'
+    Plug 'unblevable/quick-scope'
+    Plug 'rhysd/clever-f.vim'
     Plug 'kien/ctrlp.vim'
-    Plug 'mileszs/ack.vim'
 
     if has('nvim')
-        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-        let g:deoplete#enable_at_startup = 1
+      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     else
-        Plug 'Valloric/YouCompleteMe'
+      Plug 'Shougo/deoplete.nvim'
+      Plug 'roxma/nvim-yarp'
+      Plug 'roxma/vim-hug-neovim-rpc'
     endif
 
     Plug 'jiangmiao/auto-pairs' " auto close
-    Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesToggle' }
 
-    Plug 'maxbrunsfeld/vim-yankstack'
+    Plug 'bfredl/nvim-miniyank'
     Plug 'terryma/vim-multiple-cursors'
 
-    Plug 'ConradIrwin/vim-bracketed-paste' " automatic set paste
+    "Plug 'jsfaint/gen_tags.vim'
+    Plug 'janko-m/vim-test'
 
     " lang
-    Plug 'scrooloose/syntastic' " TODO: Needs integration with powerline
-    Plug 'klen/python-mode'
+    " completion
+    Plug 'Shougo/neco-vim'
+
+    " Until https://github.com/mhartington/nvim-typescript/pull/84 is merged
+    if has('nvim')
+        Plug 'mhartington/nvim-typescript'
+    endif
+
+    Plug 'zchee/deoplete-clang'
+    Plug 'zchee/deoplete-go'
+    Plug 'zchee/deoplete-jedi'
+    Plug 'sebastianmarkow/deoplete-rust'
+
+    " syntax
+    Plug 'herringtondarkholme/yats.vim'
+    Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
+    Plug 'fatih/vim-go'
+    Plug 'arakashic/chromatica.nvim'
     Plug 'pangloss/vim-javascript'
-    Plug 'kchmck/vim-coffee-script'
     Plug 'plasticboy/vim-markdown'
-    Plug 'wting/rust.vim'
-    Plug 'elzr/vim-json'
     Plug 'derekwyatt/vim-scala'
-    Plug 'hail2u/vim-css3-syntax'
-    Plug 'tangledhelix/vim-kickstart'
-    Plug 'Glench/Vim-Jinja2-Syntax'
-    Plug 'racer-rust/vim-racer'
+    Plug 'glench/vim-jinja2-syntax'
     Plug 'vim-perl/vim-perl',        { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 
     " don't forget to call() end, causes troubles -.-
@@ -81,105 +99,63 @@
 
   " Plugin settings {{{
     let g:tagbar_sort = 0
-    let g:indentLine_enabled = 0
-    let g:tcommentTextObjectInlineComment = ''
-    let g:undotree_WindowLayout = 2
-    let g:solarized_contrast = "high"
-    "let g:solarized_termcolors = 16
-    let g:solarized_visibility = "high"
-    nnoremap U :UndotreeToggle<CR>
     let g:vim_markdown_folding_disabled = 1
-    let g:ycm_rust_src_path = '~/apps/rust/src'
-    let g:ycm_confirm_extra_conf = 0
-    "
+
+    let g:deoplete#enable_at_startup = 1
+
+    " syntax
+    let g:javascript_plugin_jsdoc = 1
+    let g:javascript_plugin_ngdoc = 1
+
     " Airline
-    let g:airline_theme = "luna"
+    let g:airline_theme = "solarized"
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#left_sep = ' '
     let g:airline#extensions#tabline#left_alt_sep = '|'
-
-    " pymode freeze
-    let g:pymode_options_max_line_length = 119
-    let g:pymode_rope_lookup_project = 0
-    let g:pymode_rope_complete_on_dot = 0
-    let g:pymode_rope = 0
   " }}}
 
   " Plugin vim-gitgutter {{{
-    nmap gh <Plug>GitGutterNextHunk
+    nmap gnh <Plug>GitGutterNextHunk
     nmap gph <Plug>GitGutterPrevHunk
 
-    let g:gitgutter_realtime = 0
-    let g:gitgutter_eager = 0
+    let g:gitgutter_max_signs = 1500
   " }}}
 
   " Plugin Rainbow Parentheses {{{
-    " let g:rainbow_active = 1
+    let g:rainbow_active = 1
     let g:rainbow#max_level = 16
     let g:rainbow#pairs = [['(', ')'], ['{', '}'], ['[', ']']]
     " List of colors that you do not want. ANSI code or #RRGGBB
-    let g:rainbow#blacklist = [233, 234]
+    "let g:rainbow#blacklist = [233, 234]
   " }}}
 
-  " Plugin <Enter> | vim-easy-align {{{
-    let g:easy_align_delimiters = {
-    \ '>': { 'pattern': '>>\|=>\|>' },
-    \ '\': { 'pattern': '\\' },
-    \ '/': { 'pattern': '//\+\|/\*\|\*/', 'delimiter_align': 'l', 'ignore_groups': ['^\(.\(Comment\)\@!\)*$'] },
-    \ ']': {
-    \     'pattern':       '[[\]]',
-    \     'left_margin':   0,
-    \     'right_margin':  0,
-    \     'stick_to_left': 0
-    \   },
-    \ ')': {
-    \     'pattern':       '[()]',
-    \     'left_margin':   0,
-    \     'right_margin':  0,
-    \     'stick_to_left': 0
-    \   },
-    \ 'f': {
-    \     'pattern': ' \(\S\+(\)\@=',
-    \     'left_margin': 0,
-    \     'right_margin': 0
-    \   },
-    \ 'd': {
-    \     'pattern': ' \(\S\+\s*[;=]\)\@=',
-    \     'left_margin': 0,
-    \     'right_margin': 0
-    \   }
-    \ }
-
-    " Start interactive EasyAlign in visual mode
-    vmap <Enter> <Plug>(EasyAlign)
-
-    " Start interactive EasyAlign with a Vim movement
-    nmap <Leader>a <Plug>(EasyAlign)
+  " Start interactive EasyAlign in visual mode
+    nmap ga <Plug>(EasyAlign)
+    xmap ga <Plug>(EasyAlign)
   " }}}
 
   " Plugin EasyMotion Minimal config {{{
-    let g:EasyMotion_do_mapping = 0 " Disable default mappings
+  " <Leader>f{char} to move to {char}
+    map  <Leader>f <Plug>(easymotion-bd-f)
+    nmap <Leader>f <Plug>(easymotion-overwin-f)
 
-    " Bi-directional find motion
-    " Jump to anywhere you want with minimal keystrokes, with just one key binding.
-    " `s{char}{label}`
-    nmap s <Plug>(easymotion-s)
-    " or
-    " `s{char}{char}{label}`
-    " Need one more keystroke, but on average, it may be more comfortable.
-    nmap s <Plug>(easymotion-s2)
+  " s{char}{char} to move to {char}{char}
+    nmap s <Plug>(easymotion-overwin-f2)
 
-    " Turn on case insensitive feature
-    let g:EasyMotion_smartcase = 1
+  " Move to line
+    map <Leader>L <Plug>(easymotion-bd-jk)
+    nmap <Leader>L <Plug>(easymotion-overwin-line)
 
-    " JK motions: Line motions
-    map <Leader>j <Plug>(easymotion-j)
-    map <Leader>k <Plug>(easymotion-k)
+  " Move to word
+    map  <Leader>w <Plug>(easymotion-bd-w)
+    nmap <Leader>w <Plug>(easymotion-overwin-w)
+
   " }}}
 
   " Basics {{{
     set encoding=utf-8
     set nocompatible
+	set pastetoggle=<F2>
 
     set ttyfast
     set cpoptions=aABceFsmq
@@ -202,8 +178,6 @@
   " General {{{
     let g:grepprg="ack -H --nocolor --nogroup --column"
     let g:skip_loading_mswin = 1
-
-    " let mapleader="\<space>"
 
     set hidden " load files in the background
     set history=9999
@@ -313,9 +287,6 @@
     " Make Y behave like other capitals
     nnoremap Y y$
 
-    nmap <leader>p <Plug>yankstack_substitute_older_paste
-    nmap <leader>P <Plug>yankstack_substitute_older_paste
-
     " Select-all (don't need confusing increment C-a)
     noremap  <C-a> gg0vG$
 
@@ -353,10 +324,8 @@
     noremap <S-space> <C-b>
     noremap <space> <C-f>
 
-    nmap <F5> :bn<CR>
-    map <F6> <ESC>:bp<CR>
-    nmap <F7> :NERDTreeToggle<CR>
-    nmap <F8> :TagbarToggle<CR>
+    nnoremap U :UndotreeToggle<CR>
+
 
     " Make Arrow Keys Useful Again {{{
         map <down> <ESC>:bn<CR>
@@ -366,12 +335,19 @@
     " }}}
 
   " General Autocommands {{{
+    function! TrimWhitespace()
+        let l:save_cursor = getpos('.')
+        %s/\s\+$//e
+        call setpos('.', l:save_cursor)
+    endfun
+
+    command! TrimWhitespace call TrimWhitespace() " Trim whitespace with command
+
     if has("autocmd")
+        autocmd BufWritePre * :call TrimWhitespace() " Trim whitespace on every save
+        autocmd BufWritePre *.html :normal gg=G " reindent html on save
         augroup general
             au!
-
-            " Resize windows automagically
-            au VimResized * :wincmd =
 
             " Always rainbow parens
             au BufRead,BufNewFile * RainbowParentheses
@@ -379,14 +355,14 @@
             " Indentation
             au BufRead,BufNewFile *.rb,*.rhtml setlocal sw=2 sts=2
             au BufRead,BufNewFile *.yaml setlocal sw=2 sts=2
-            au FileType python,vim,vimrc setlocal ts=4 sts=4 sw=4 expandtab
+            au BufRead,BufNewFile *.js,*.ts setlocal sw=2 sts=2 sw=2 expandtab
+            au FileType vim,vimrc setlocal ts=4 sts=4 sw=4 expandtab
 
             " Some JS awesome via romainl
-            au BufRead,BufNewFile *.js nnoremap <C-]> :tjump /<c-r>=expand('<cword>')<CR><CR>
-            au BufRead,BufNewFile *.js nnoremap <C-}> :ptjump /<c-r>=expand('<cword>')<CR><CR>
+            au BufRead,BufNewFile *.js,*.ts nnoremap <C-]> :tjump /<c-r>=expand('<cword>')<CR><CR>
+            au BufRead,BufNewFile *.js,*.ts nnoremap <C-}> :ptjump /<c-r>=expand('<cword>')<CR><CR>
 
             " Override types
-            au BufNewFile,BufRead *.md,*.markdown setlocal filetype=markdown " Markdown (common markdown?)
             au BufNewFile,BufRead *.z* setlocal filetype=zsh
             au BufNewFile,BufRead *.scala setlocal filetype=scala
 
@@ -394,14 +370,6 @@
             au FileType asciidoc setlocal spell
             au FileType gitcommit setlocal spell
             au FileType markdown setlocal spell
-            au FileType svn setlocal spell
-        augroup END
-
-        augroup clear_whitespace
-            " Automatically delete trailing white spaces
-            au!
-            au BufEnter,BufRead,BufWrite * silent! %s/[\r \t]\+$//
-            au BufEnter *.php :%s/[ \t\r]\+$//e
         augroup END
 
     endif
