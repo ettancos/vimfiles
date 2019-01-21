@@ -29,11 +29,13 @@
 
     Plug 'yggdroot/indentline'
     Plug 'romainl/flattened'
+    Plug 'arcticicestudio/nord-vim'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
 
     " editing
     Plug 'junegunn/rainbow_parentheses.vim'
+    "Plug 'luochen1990/rainbow'
     Plug 'junegunn/vim-easy-align',       { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
     Plug 'junegunn/vim-pseudocl' " prerequisite - pseudo command line
     Plug 'junegunn/vim-oblique' " /-search improvements
@@ -72,10 +74,7 @@
     " completion
     Plug 'Shougo/neco-vim'
 
-    " Until https://github.com/mhartington/nvim-typescript/pull/84 is merged
-    if has('nvim')
-        Plug 'mhartington/nvim-typescript'
-    endif
+    Plug 'mhartington/nvim-typescript'
 
     Plug 'zchee/deoplete-clang'
     Plug 'zchee/deoplete-go'
@@ -114,6 +113,8 @@
     let g:airline#extensions#tabline#left_alt_sep = '|'
   " }}}
 
+    let g:solarized_termcolors=256
+    let g:nord_comment_brightness = 20
   " Plugin vim-gitgutter {{{
     nmap gnh <Plug>GitGutterNextHunk
     nmap gph <Plug>GitGutterPrevHunk
@@ -122,11 +123,12 @@
   " }}}
 
   " Plugin Rainbow Parentheses {{{
-    let g:rainbow_active = 1
-    let g:rainbow#max_level = 16
+    "let g:rainbow_active = 1
+    let g:rainbow#max_level = 8
     let g:rainbow#pairs = [['(', ')'], ['{', '}'], ['[', ']']]
+    "let g:rainbow#colors = { 'dark': ['blue', 'red', 'magenta']}
     " List of colors that you do not want. ANSI code or #RRGGBB
-    "let g:rainbow#blacklist = [233, 234]
+    let g:rainbow#blacklist = ['Cyan', 'Yellow', 10, 11, 233, 234]
   " }}}
 
   " Start interactive EasyAlign in visual mode
@@ -212,8 +214,10 @@
 
   " Vim UI {{{
     set t_Co=256
-    set background=light
+    set background=dark
+    "colorscheme nord
     colorscheme flattened_light
+    set termguicolors
 
     set cursorline " highlight current line
     set lazyredraw " do not redraw while running macros
@@ -350,7 +354,7 @@
             au!
 
             " Always rainbow parens
-            au BufRead,BufNewFile * RainbowParentheses
+            "au BufRead,BufNewFile * RainbowParentheses
 
             " Indentation
             au BufRead,BufNewFile *.rb,*.rhtml setlocal sw=2 sts=2
