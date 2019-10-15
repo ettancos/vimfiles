@@ -10,7 +10,7 @@
 
     " Load same default settings
     Plug 'tpope/vim-sensible'
-    Plug 'Shougo/denite.nvim'
+    "Plug 'Shougo/denite.nvim'
 
     " Git
     Plug 'tpope/vim-fugitive'
@@ -28,14 +28,18 @@
     Plug 'majutsushi/tagbar'
 
     Plug 'yggdroot/indentline'
-    Plug 'romainl/flattened'
+
+    " colorschemes
     Plug 'arcticicestudio/nord-vim'
+    Plug 'NLKNguyen/papercolor-theme'
+    Plug 'lifepillar/vim-solarized8'
+
+    " airline
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
 
     " editing
     Plug 'junegunn/rainbow_parentheses.vim'
-    "Plug 'luochen1990/rainbow'
     Plug 'junegunn/vim-easy-align',       { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
     Plug 'junegunn/vim-pseudocl' " prerequisite - pseudo command line
     Plug 'junegunn/vim-oblique' " /-search improvements
@@ -54,32 +58,16 @@
     Plug 'rhysd/clever-f.vim'
     Plug 'kien/ctrlp.vim'
 
-    if has('nvim')
-      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    else
-      Plug 'Shougo/deoplete.nvim'
-      Plug 'roxma/nvim-yarp'
-      Plug 'roxma/vim-hug-neovim-rpc'
-    endif
-
     Plug 'jiangmiao/auto-pairs' " auto close
 
     Plug 'bfredl/nvim-miniyank'
     Plug 'terryma/vim-multiple-cursors'
 
-    "Plug 'jsfaint/gen_tags.vim'
     Plug 'janko-m/vim-test'
 
     " lang
     " completion
-    Plug 'Shougo/neco-vim'
-
-    Plug 'mhartington/nvim-typescript'
-
-    Plug 'zchee/deoplete-clang'
-    Plug 'zchee/deoplete-go'
-    Plug 'zchee/deoplete-jedi'
-    Plug 'sebastianmarkow/deoplete-rust'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     " syntax
     Plug 'herringtondarkholme/yats.vim'
@@ -97,24 +85,24 @@
   " }}}
 
   " Plugin settings {{{
-    let g:tagbar_sort = 0
     let g:vim_markdown_folding_disabled = 1
 
-    let g:deoplete#enable_at_startup = 1
+    let g:solarized_visibility='normal'
+    let g:solarized_diffmode='high'
+    let g:solarized_statusline='flat'
+    let g:solarized_termtrans=0
 
     " syntax
     let g:javascript_plugin_jsdoc = 1
     let g:javascript_plugin_ngdoc = 1
 
     " Airline
-    let g:airline_theme = "solarized"
+    let g:airline_theme = "papercolor"
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#left_sep = ' '
     let g:airline#extensions#tabline#left_alt_sep = '|'
   " }}}
 
-    let g:solarized_termcolors=256
-    let g:nord_comment_brightness = 20
   " Plugin vim-gitgutter {{{
     nmap gnh <Plug>GitGutterNextHunk
     nmap gph <Plug>GitGutterPrevHunk
@@ -157,12 +145,12 @@
   " Basics {{{
     set encoding=utf-8
     set nocompatible
-	set pastetoggle=<F2>
+    set pastetoggle=<F2>
 
     set ttyfast
     set cpoptions=aABceFsmq
 
-    set clipboard+=unnamed
+    set clipboard+=unnamedplus
 
     set backup
     set undofile
@@ -171,7 +159,6 @@
     set backupdir=~/.vim/backup
     set directory=~/.vim/tmp
     set undodir=~/.vim/undo
-    set tags=./tags;/
 
     syntax on
     syntax sync minlines=100
@@ -213,11 +200,14 @@
   " }}}
 
   " Vim UI {{{
-    set t_Co=256
-    set background=dark
+	"let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+	"let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    "set t_Co=256
+    colorscheme solarized8
     "colorscheme nord
-    colorscheme flattened_light
-    set termguicolors
+    "colorscheme PaperColor
+    set background=light
+    "set termguicolors " will fuck up the colors
 
     set cursorline " highlight current line
     set lazyredraw " do not redraw while running macros
