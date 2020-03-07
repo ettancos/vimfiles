@@ -350,6 +350,7 @@
             au BufRead,BufNewFile *.rb,*.rhtml setlocal sw=2 sts=2
             au BufRead,BufNewFile *.yaml setlocal sw=2 sts=2
             au BufRead,BufNewFile *.js,*.ts setlocal sw=2 sts=2 sw=2 expandtab
+            au BufNewFile,BufRead *.go setlocal noet ts=4 sw=4 sts=4
             au FileType vim,vimrc setlocal ts=4 sts=4 sw=4 expandtab
 
             " Some JS awesome via romainl
